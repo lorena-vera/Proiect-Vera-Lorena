@@ -12,15 +12,270 @@
 /*    monospace;*/
 /*}*/
 
+
+/* Reset și structură globală */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-header {
-  color: red;
-  letter-spacing: 10px;
-  font-size: 22px;
-  padding: 10px 5px;
+.game-title {
+  font-size: 36px;
+  margin-top: 20px;
+  text-align: center;
+  color: #333;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  animation: popFade 1s ease;
+}
+
+@keyframes popFade {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+body {
+  background-color: #f2f2f2;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Utilitare */
+.hidden {
+  display: none !important;
+}
+
+/* Ecran principal */
+.main-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Containerul jocului */
+.game-container {
+  display: grid;
+  grid-template-columns: repeat(5, 80px);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Butoanele-căsuțe */
+.box {
+  width: 80px;
+  height: 80px;
+  background-color: #ffffff;
+  border: 2px solid #888;
+  border-radius: 6px;
+  font-size: 24px;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.box:hover {
+  background-color: #e0e0e0;
+}
+
+.box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.box.matched {
+  background-color: #c8e6c9;
+  border-color: #4caf50;
+  cursor: default;
+}
+
+.box.preview {
+  animation: flip 0.6s ease-in-out;
+}
+
+.card-back {
+  font-size: 24px;
+  color: #aaa;
+  transition: transform 0.3s ease;
+}
+
+.box:hover .card-back {
+  transform: scale(1.3) rotate(5deg);
+  color: #555;
+}
+
+@keyframes flip {
+  0% { transform: rotateY(0); }
+  50% { transform: rotateY(90deg); }
+  100% { transform: rotateY(0); }
+}
+
+/* Panou de stare */
+.state-panel {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.state-panel p {
+  margin: 6px 0;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.state-panel button {
+  margin-top: 10px;
+  padding: 8px 14px;
+  font-size: 16px;
+  background-color: #2196f3;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.state-panel button:hover {
+  background-color: #1976d2;
+}
+
+/* Ecran de victorie */
+.victory-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #fceabb, #f8b500);
+  padding: 30px 50px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  animation: fadeInVictory 0.8s ease-out forwards;
+  color: #2e7d32;
+  max-width: 90vw;
+}
+
+.victory-screen h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  animation: popIn 0.5s ease;
+}
+
+.victory-screen p {
+  font-size: 18px;
+  color: #333;
+  animation: fadeInText 0.8s ease;
+}
+
+@keyframes fadeInVictory {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInText {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Selectarea temei */
+.theme-select-screen {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.theme-options {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.theme-card {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.theme-card:hover {
+  transform: scale(1.05);
+}
+
+.theme-card img {
+  width: 140px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  margin-bottom: 10px;
+}
+
+.theme-card span {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1002;
+}
+
+.confetti-star {
+  position: absolute;
+  top: -10px;
+  color: gold;
+  opacity: 0.8;
+  animation-name: fallStar;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+@keyframes fallStar {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
 }
